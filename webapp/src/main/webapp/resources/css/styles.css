@@ -1,0 +1,18 @@
+body {
+    padding: 72px 56px;
+}
+
+.logo {
+    width: 50px;
+    height: 35px;
+    border-radius: 3px;
+}
+
+.logo-text {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.footer-text {
+    color: #d7d7db;
+}
