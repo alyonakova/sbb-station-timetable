@@ -6,6 +6,8 @@ import ru.t_systems.alyona.sbb.timetable.service.TimetableHolder;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -29,6 +31,10 @@ public class TimetableUpdateListenerMDB implements MessageListener {
     private TimetableHolder timetableHolder;
 
     @Inject
+    @Push(channel = "timetableUpdate")
+    private PushContext timetableUpdateChannel;
+
+    @Inject
     public void setTimetableHolder(TimetableHolder timetableHolder) {
         this.timetableHolder = timetableHolder;
     }
@@ -45,5 +51,6 @@ public class TimetableUpdateListenerMDB implements MessageListener {
     private void processMessage(final Message incomingMessage) throws JMSException {
         TimetableUpdateDTO timetableChanges = incomingMessage.getBody(TimetableUpdateDTO.class);
         timetableHolder.updateTimetable(timetableChanges);
+        timetableUpdateChannel.send("Timetable updated");
     }
 }
