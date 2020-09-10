@@ -1,7 +1,6 @@
 package ru.t_systems.alyona.sbb.timetable.integration.timetableservice.jmslistener;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import ru.t_systems.alyona.sbb.timetable.TimetableUpdateDTO;
 import ru.t_systems.alyona.sbb.timetable.service.TimetableHolder;
 
@@ -24,9 +23,8 @@ import javax.jms.MessageListener;
                         propertyName = "acknowledgeMode",
                         propertyValue = "Auto-acknowledge"),
         })
+@Slf4j
 public class TimetableUpdateListenerMDB implements MessageListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimetableUpdateListenerMDB.class);
 
     private TimetableHolder timetableHolder;
 
@@ -40,7 +38,7 @@ public class TimetableUpdateListenerMDB implements MessageListener {
         try {
             processMessage(incomingMessage);
         } catch (Exception e) {
-            LOGGER.error("Failed to process a message from the timetable topic", e);
+            log.error("Failed to process a message from the timetable topic", e);
         }
     }
 
