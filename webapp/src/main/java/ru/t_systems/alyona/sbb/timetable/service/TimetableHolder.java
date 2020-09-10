@@ -8,6 +8,7 @@ import ru.t_systems.alyona.sbb.timetable.integration.timetableservice.restclient
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.ZonedDateTime;
 
 @ApplicationScoped
 public class TimetableHolder {
@@ -38,6 +39,12 @@ public class TimetableHolder {
     }
 
     public void updateTimetable(TimetableUpdateDTO timetableUpdate) {
-        throw new UnsupportedOperationException("Not implemented");
+
+        for (ZonedDateTime departureTime : timetableUpdate.getTrainDepartureDates()) {
+            timetable.getSegments().stream()
+                    .filter(segment -> segment.getTrainNumber().equals(timetableUpdate.getTrainNumber()) &&
+                                       segment.getTrainDepartureDate().isEqual(departureTime))
+                    .forEach(segment -> segment.setStatus(timetableUpdate.getNewStatus()));
+        }
     }
 }
