@@ -8,6 +8,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Named
@@ -28,7 +30,7 @@ public class TimetablePage implements Serializable {
         return timetableHolder.getTimetable().getSegments();
     }
 
-    public void reloadTimetable() {
-        timetableHolder.reloadTimetable();
+    public String formatDate(ZonedDateTime dateTime) {
+        return DateTimeFormatter.ofPattern("dd/MM hh:mm").format(dateTime);
     }
 }

@@ -64,9 +64,9 @@
             <ui:repeat var="segment" value="${timetablePage.timetableSegments}">
                 <tr>
                     <td>#{segment.trainNumber}</td>
-                    <td>#{segment.departureDate}</td>
+                    <td>${timetablePage.formatDate(segment.departureDate)}</td>
                     <td>#{segment.departureStation}</td>
-                    <td>#{segment.arrivalDate}</td>
+                    <td>${timetablePage.formatDate(segment.arrivalDate)}</td>
                     <td>#{segment.arrivalStation}</td>
                     <td>#{segment.status}</td>
                 </tr>
