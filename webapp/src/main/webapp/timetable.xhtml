@@ -98,6 +98,7 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
     <script src="#{resource['js/main.js']}"></script>
+    <script>changeRouteType();</script>
     <f:websocket channel="timetableUpdate" onmessage="onTimetableUpdate"/>
 </f:view>
 </body>
