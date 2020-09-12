@@ -33,4 +33,8 @@ public class TimetablePage implements Serializable {
     public String formatDate(ZonedDateTime dateTime) {
         return DateTimeFormatter.ofPattern("dd/MM hh:mm").format(dateTime);
     }
+
+    public boolean isSegmentOnTime(TimetableSegmentDTO segment) {
+        return segment.getStatus().equals("On time");
+    }
 }

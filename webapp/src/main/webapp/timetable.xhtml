@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
 >
 <h:head>
     <meta charset="utf-8"/>
@@ -68,7 +69,14 @@
                     <td>#{segment.departureStation}</td>
                     <td>${timetablePage.formatDate(segment.arrivalDate)}</td>
                     <td>#{segment.arrivalStation}</td>
-                    <td>#{segment.status}</td>
+                    <td>
+                        <h:outputText rendered="#{timetablePage.isSegmentOnTime(segment)}"
+                                      value="#{segment.status}"/>
+                        <span class="badge badge-danger"
+                              jsf:rendered="#{not timetablePage.isSegmentOnTime(segment)}">
+                            #{segment.status}
+                        </span>
+                    </td>
                 </tr>
             </ui:repeat>
             </tbody>
