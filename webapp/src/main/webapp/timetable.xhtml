@@ -30,57 +30,89 @@
         </nav>
     </header>
 
-    <main>
-        <h3>
+    <main role="main">
+        <h3 class="text-center">
             <!-- FIXME: Specify a correct date instead of the word 'today' -->
             <h:outputLabel value="Train schedule for today"/>
         </h3>
 
-        <!-- TODO: Maybe move behaviour to backing bean instead of JavaScript? -->
-        <div class="btn-group btn-group-toggle mb-2" data-toggle="buttons">
-            <label class="btn btn-primary active">
-                <input type="radio" name="route" value="departure" checked="checked"
-                       autocomplete="off" id="radio-departure" onchange="changeRouteType()"/>
-                Departure
-            </label>
-            <label class="btn btn-primary">
-                <input type="radio" name="route" value="arrival"
-                       autocomplete="off" id="radio-arrival" onchange="changeRouteType()"/>
-                Arrival
-            </label>
-        </div>
+        <div class="container-fluid mx-2">
+            <div class="row">
+                <div class="col-md-12 col-lg-6 rounded">
+                    <div>
+                        <h3 class="text-center">Departure</h3>
+                        <table class="table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Train</th>
+                                <th scope="col">Departure date</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Arrival date</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <ui:repeat var="segment" value="${timetablePage.segmentsForDeparture}">
+                                <tr>
+                                    <td>#{segment.trainNumber}</td>
+                                    <td>${timetablePage.formatDate(segment.departureDate)}</td>
+                                    <td>#{segment.departureStation}</td>
+                                    <td>${timetablePage.formatDate(segment.arrivalDate)}</td>
+                                    <td>#{segment.arrivalStation}</td>
+                                    <td>
+                                        <h:outputText rendered="#{timetablePage.isSegmentOnTime(segment)}"
+                                                      value="#{segment.status}"/>
+                                        <span class="badge badge-danger"
+                                              jsf:rendered="#{not timetablePage.isSegmentOnTime(segment)}">
+                                                    #{segment.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-        <table class="table" id="timetable">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">Train</th>
-                <th scope="col">Departure date</th>
-                <th scope="col">From</th>
-                <th scope="col">Arrival date</th>
-                <th scope="col">To</th>
-                <th scope="col">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <ui:repeat var="segment" value="${timetablePage.timetableSegments}">
-                <tr>
-                    <td>#{segment.trainNumber}</td>
-                    <td>${timetablePage.formatDate(segment.departureDate)}</td>
-                    <td>#{segment.departureStation}</td>
-                    <td>${timetablePage.formatDate(segment.arrivalDate)}</td>
-                    <td>#{segment.arrivalStation}</td>
-                    <td>
-                        <h:outputText rendered="#{timetablePage.isSegmentOnTime(segment)}"
-                                      value="#{segment.status}"/>
-                        <span class="badge badge-danger"
-                              jsf:rendered="#{not timetablePage.isSegmentOnTime(segment)}">
-                            #{segment.status}
-                        </span>
-                    </td>
-                </tr>
-            </ui:repeat>
-            </tbody>
-        </table>
+                <div class="col-md-12 col-lg-6 rounded">
+                    <div>
+                        <h3 class="text-center">Arrival</h3>
+                        <table class="table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Train</th>
+                                <th scope="col">Departure date</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Arrival date</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <ui:repeat var="segment" value="${timetablePage.segmentsForArrival}">
+                                <tr>
+                                    <td>#{segment.trainNumber}</td>
+                                    <td>${timetablePage.formatDate(segment.departureDate)}</td>
+                                    <td>#{segment.departureStation}</td>
+                                    <td>${timetablePage.formatDate(segment.arrivalDate)}</td>
+                                    <td>#{segment.arrivalStation}</td>
+                                    <td>
+                                        <h:outputText rendered="#{timetablePage.isSegmentOnTime(segment)}"
+                                                      value="#{segment.status}"/>
+                                        <span class="badge badge-danger"
+                                              jsf:rendered="#{not timetablePage.isSegmentOnTime(segment)}">
+                                                    #{segment.status}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- FOOTER -->
@@ -98,7 +130,6 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
     <script src="#{resource['js/main.js']}"></script>
-    <script>changeRouteType();</script>
     <f:websocket channel="timetableUpdate" onmessage="onTimetableUpdate"/>
 </f:view>
 </body>

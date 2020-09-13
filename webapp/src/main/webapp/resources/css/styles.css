@@ -16,3 +16,7 @@ body {
 .footer-text {
     color: #d7d7db;
 }
+
+.rounded {
+    border-radius: 9px;
+}
